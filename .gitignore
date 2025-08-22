@@ -1,0 +1,9 @@
+# IntelliJ IDEA
+.idea/
+
+# Helm package files
+*.tgz
+
+# OS / temp files
+*.log
+*.tmp
