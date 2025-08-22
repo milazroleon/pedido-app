@@ -1,0 +1,20 @@
+replicaCount: 1
+
+image:
+  repository: nginx   
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+env:
+  db:
+    host: ""        
+    port: 5432
+    name: orders
+    user: appuser
+    password: apppass
+
+resources: {}

@@ -1,0 +1,58 @@
+# --- BACKEND: echo-server (responde en /, puerto 80) ---
+backend:
+  replicaCount: 1
+  image:
+    repository: ealen/echo-server
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 80
+  service:
+    port: 8080
+  resources:
+    requests: { cpu: 100m, memory: 128Mi }
+    limits:   { cpu: 300m, memory: 256Mi }
+  readinessProbe:
+    httpGet: { path: "/", port: http }
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  livenessProbe:
+    httpGet: { path: "/", port: http }
+    initialDelaySeconds: 10
+    periodSeconds: 20
+  env:
+    db:
+      host: ""        # ignorado por echo-server
+      port: 5432
+      name: "orders"
+      user: "appuser"
+      password: "devpass"
+  secrets:
+    existingSecretName: ""  # dejamos que el chart cree el Secret si lo necesita
+
+# --- FRONTEND: nginxdemos/hello (sirve estático en /, puerto 80) ---
+frontend:
+  replicaCount: 1
+  image:
+    repository: nginxdemos/hello
+    tag: latest
+    pullPolicy: IfNotPresent
+  containerPort: 80
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests: { cpu: 50m, memory: 64Mi }
+    limits:   { cpu: 300m, memory: 256Mi }
+  readinessProbe:
+    httpGet: { path: "/", port: http }
+    initialDelaySeconds: 3
+    periodSeconds: 10
+  livenessProbe:
+    httpGet: { path: "/", port: http }
+    initialDelaySeconds: 5
+    periodSeconds: 20
+
+# --- DB: desactivada en smoke test para ahorrar recursos ---
+# si tu Chart.yaml usa "postgresql" sin alias, esta clave es correcta:
+postgresql:
+  enabled: false
