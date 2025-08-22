@@ -1,6 +1,6 @@
 # --- BACKEND: echo-server (responde en /, puerto 80) ---
 backend:
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: ealen/echo-server
     tag: latest
@@ -31,7 +31,7 @@ backend:
 
 # --- FRONTEND: nginxdemos/hello (sirve estático en /, puerto 80) ---
 frontend:
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: nginxdemos/hello
     tag: latest
@@ -55,4 +55,13 @@ frontend:
 # --- DB: desactivada en smoke test para ahorrar recursos ---
 # si tu Chart.yaml usa "postgresql" sin alias, esta clave es correcta:
 postgresql:
-  enabled: false
+  enabled: true
+  auth:
+    database: orders
+    username: appuser
+    password: devpass
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+
