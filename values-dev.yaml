@@ -19,6 +19,11 @@ backend:
     httpGet: { path: "/", port: http }
     initialDelaySeconds: 10
     periodSeconds: 20
+  hpa:
+    minReplicas: 2
+    maxReplicas: 6
+    cpu:
+      averageUtilization: 80
   env:
     db:
       host: ""        # ignorado por echo-server
