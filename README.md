@@ -57,7 +57,18 @@ Se crearon **dos aplicaciones** en ArgoCD, una para cada entorno:
 > Cada aplicación de ArgoCD apunta al mismo repositorio, pero usa distintos values para separar la configuración de **desarrollo** y **producción**. Esto permite cambiar imágenes o recursos en un entorno sin afectar al otro.
 
 ---
+## Endpoints de la aplicación
 
+### Frontend
+- `http://<EXTERNAL-IP>/`
+
+### Backend (API)
+- `GET http://<EXTERNAL-IP>/api/orders`
+
+# Ejemplos con curl
+curl -i http://<EXTERNAL-IP>/
+curl -i http://<EXTERNAL-IP>/api/orders
+---
 ### Notas importantes
 
 * El chart incluye subcharts para backend, frontend y PostgreSQL.
