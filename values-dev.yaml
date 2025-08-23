@@ -4,7 +4,7 @@ backend:
 
   image:
     repository: pedido-backend
-    tag: dev
+    tag: test
     pullPolicy: IfNotPresent
 
   containerPort: 8080
