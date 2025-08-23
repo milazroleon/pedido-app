@@ -3,7 +3,7 @@ backend:
   replicaCount: 1
 
   image:
-    repository: pedido-backend
+    repository: nginxdemos/hello
     tag: latest
     pullPolicy: IfNotPresent
 
