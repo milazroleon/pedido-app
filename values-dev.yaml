@@ -3,9 +3,11 @@ backend:
   replicaCount: 1
 
   image:
-    repository: nginxdemos/hello
+  
+    repository: milazroleon/order-api
     tag: latest
     pullPolicy: IfNotPresent
+
 
   containerPort: 8080
   service:
