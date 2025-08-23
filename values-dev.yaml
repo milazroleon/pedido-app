@@ -1,3 +1,4 @@
+# --- BACKEND: pedido-backend ---
 backend:
   replicaCount: 1
 
@@ -8,6 +9,7 @@ backend:
 
   containerPort: 8080
   service:
+    type: ClusterIP
     port: 8080
 
   # Probes tolerantes mientras arranca/conecta a DB
@@ -26,14 +28,18 @@ backend:
   startupProbe:
     httpGet: { path: "/actuator/health", port: http }
     initialDelaySeconds: 10
-    periodSeconds: 5
-    failureThreshold: 30
-    timeoutSeconds: 2
+    periodSeconds: 20
 
-  # Credenciales DB (también las usa el chart para Secret/ConfigMap)
+  # HPA corregido
+  hpa:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 80
+
   env:
     db:
-      host: ""          # => usa pedido-dev-postgresql automáticamente
+      host: ""        # ignorado por echo-server
       port: 5432
       name: "orders"
       user: "appuser"
@@ -52,8 +58,9 @@ backend:
     #   value: update
 
   secrets:
-    existingSecretName: ""
+    existingSecretName: ""  # dejamos que el chart cree el Secret si lo necesita
 
+# --- FRONTEND: nginxdemos/hello ---
 frontend:
   replicaCount: 2
   image:
@@ -76,6 +83,7 @@ frontend:
     initialDelaySeconds: 5
     periodSeconds: 20
 
+# --- DB: PostgreSQL ---
 postgresql:
   enabled: true
   auth:
@@ -86,6 +94,8 @@ postgresql:
     persistence:
       enabled: true
       size: 1Gi
-      storageClass: standard
 
-
+# --- GLOBAL OVERRIDES ---
+global:
+  fullnameOverride: ""
+  nameOverride: ""
