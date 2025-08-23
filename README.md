@@ -63,11 +63,11 @@ Se crearon **dos aplicaciones** en ArgoCD, una para cada entorno:
 - `http://<EXTERNAL-IP>/`
 
 ### Backend (API)
-- `GET http://<EXTERNAL-IP>/api/orders`
+- `http://<EXTERNAL-IP>/api/orders`
 
 # Ejemplos con curl
-- curl -i http://<EXTERNAL-IP>/
-- curl -i http://<EXTERNAL-IP>/api/orders
+- curl -i 'http://<EXTERNAL-IP>/'
+- curl -i 'http://<EXTERNAL-IP>/api/orders'
 ---
 ### Notas importantes
 
