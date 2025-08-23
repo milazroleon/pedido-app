@@ -2,7 +2,6 @@ global:
   nameOverride: ""
   fullnameOverride: ""
 
-
 backend:
   replicaCount: 1
   image:
@@ -21,21 +20,20 @@ backend:
       memory: 512Mi
   env:
     db:
-      host: "" 
+      host: ""
       port: 5432
       name: "orders"
       user: "appuser"
-      password: "apppass" 
+      password: "apppass"
     extra: {}
   secrets:
-    existingSecretName: "" 
-
+    existingSecretName: ""
 
 frontend:
   replicaCount: 1
   image:
-    repository: "ghcr.io/your-org/pedido-frontend"
-    tag: "latest"
+    repository: ghcr.io/your-org/pedido-frontend
+    tag: latest
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -48,7 +46,6 @@ frontend:
       cpu: 300m
       memory: 256Mi
   env: {}
-
 
 db:
   architecture: standalone
@@ -63,25 +60,27 @@ db:
       enabled: true
       size: 8Gi
 
-      # Probes para evitar BackOff
-  startupProbe:
-    httpGet:
-      path: /actuator/health
-      port: 8080
-    failureThreshold: 30   # hasta 5 minutos para que arranque
-    periodSeconds: 10
-    initialDelaySeconds: 5
-  readinessProbe:
-    httpGet:
-      path: /actuator/health
-      port: 8080
-    initialDelaySeconds: 10
-    periodSeconds: 10
-    failureThreshold: 5
-  livenessProbe:
-    httpGet:
-      path: /actuator/health
-      port: 8080
-    initialDelaySeconds: 20
-    periodSeconds: 15
-    failureThreshold: 3
+# Probes para evitar BackOff
+startupProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  failureThreshold: 30
+  periodSeconds: 10
+  initialDelaySeconds: 5
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  failureThreshold: 5
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health
+    port: 8080
+  initialDelaySeconds: 20
+  periodSeconds: 15
+  failureThreshold: 3

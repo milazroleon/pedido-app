@@ -1,0 +1,32 @@
+backend:
+  replicaCount: 1
+  image:
+    tag: backend-dev
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+frontend:
+  replicaCount: 1
+  image:
+    tag: frontend-dev
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+db:
+  auth:
+    username: devuser
+    password: devpass
+    database: pedidosdb
+  primary:
+    persistence:
+      size: 2Gi
