@@ -3,8 +3,8 @@ backend:
   replicaCount: 1
 
   image:
-    repository: pedido-backend
-    tag: dev
+    repository: openjdk/spring-boot-backend-example
+    tag: latest
     pullPolicy: IfNotPresent
 
   containerPort: 8080
