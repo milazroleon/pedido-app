@@ -1,9 +1,11 @@
 replicaCount: 1
 
 image:
-  repository: nginx   
-  tag: "latest"
+  repository: laurarodleo/pedido-app-images
+  tag: backend-dev
   pullPolicy: IfNotPresent
+
+containerPort: 8080
 
 service:
   type: ClusterIP
