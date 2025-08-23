@@ -3,36 +3,43 @@ backend:
   replicaCount: 1
 
   image:
-  
     repository: laurarodleo/pedido-app-images
     tag: backend-dev
     pullPolicy: IfNotPresent
-
 
   containerPort: 8080
   service:
     type: ClusterIP
     port: 8080
 
-  # Probes tolerantes mientras arranca/conecta a DB
+  # Probes ajustadas
   readinessProbe:
-    httpGet: { path: "/actuator/health", port: http }
-    initialDelaySeconds: 20
+    httpGet:
+      path: "/actuator/health"
+      port: 8080
+    initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 2
     failureThreshold: 12
+
   livenessProbe:
-    httpGet: { path: "/actuator/health", port: http }
+    httpGet:
+      path: "/actuator/health"
+      port: 8080
     initialDelaySeconds: 60
     periodSeconds: 20
     timeoutSeconds: 2
     failureThreshold: 6
-  startupProbe:
-    httpGet: { path: "/actuator/health", port: http }
-    initialDelaySeconds: 10
-    periodSeconds: 20
 
-  # HPA corregido
+  startupProbe:
+    httpGet:
+      path: "/actuator/health"
+      port: 8080
+    initialDelaySeconds: 20
+    periodSeconds: 20
+    failureThreshold: 30
+
+  # HPA
   hpa:
     enabled: true
     minReplicas: 2
@@ -80,11 +87,15 @@ frontend:
     requests: { cpu: 50m, memory: 64Mi }
     limits:   { cpu: 300m, memory: 256Mi }
   readinessProbe:
-    httpGet: { path: "/", port: http }
+    httpGet:
+      path: "/"
+      port: 80
     initialDelaySeconds: 3
     periodSeconds: 10
   livenessProbe:
-    httpGet: { path: "/", port: http }
+    httpGet:
+      path: "/"
+      port: 80
     initialDelaySeconds: 5
     periodSeconds: 20
 
@@ -104,4 +115,3 @@ postgresql:
 global:
   fullnameOverride: ""
   nameOverride: ""
-
