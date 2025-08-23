@@ -6,8 +6,8 @@ global:
 backend:
   replicaCount: 1
   image:
-    repository: "ghcr.io/your-org/pedido-backend"
-    tag: "latest"
+    repository: laurarodleo/pedido-app-images
+    tag: backend-dev
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
