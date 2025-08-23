@@ -4,8 +4,8 @@ backend:
 
   image:
   
-    repository: milazroleon/order-api
-    tag: latest
+    repository: laurarodleo/pedido-app-images
+    tag: backend-dev
     pullPolicy: IfNotPresent
 
 
@@ -104,3 +104,4 @@ postgresql:
 global:
   fullnameOverride: ""
   nameOverride: ""
+
