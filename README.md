@@ -64,10 +64,6 @@ Se crearon **dos aplicaciones** en ArgoCD, una para cada entorno:
 
 ### Backend (API)
 - `http://<EXTERNAL-IP>/api/orders`
-
-# Ejemplos con curl
-- curl -i 'http://<EXTERNAL-IP>/'
-- curl -i 'http://<EXTERNAL-IP>/api/orders'
 ---
 ### Notas importantes
 
