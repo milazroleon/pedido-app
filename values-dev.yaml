@@ -60,7 +60,7 @@ backend:
   # Vars que Spring Boot sí lee por defecto
   extraEnv:
     - name: SPRING_DATASOURCE_URL
-      value: "jdbc:postgresql://pedido-dev-postgresql:5432/orders"
+      value: "jdbc:postgresql://pedido-app-dev-postgresql:5432/orders"
     - name: SPRING_DATASOURCE_USERNAME
       value: "appuser"
     - name: SPRING_DATASOURCE_PASSWORD
