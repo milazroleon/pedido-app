@@ -35,7 +35,10 @@ backend:
     enabled: true
     minReplicas: 2
     maxReplicas: 6
-    targetCPUUtilizationPercentage: 80
+    cpu:
+      averageUtilization: 80
+    memory:
+      averageUtilization: 70
 
   env:
     db:
