@@ -1,26 +1,16 @@
-<<<<<<< HEAD:values.yaml
-=======
 global:
   nameOverride: ""
   fullnameOverride: ""
 
->>>>>>> ee7e4771ad0e33da78ec2e932a6b42a8b7461822:charts/pedido-app/values.yaml
 backend:
   image:
-<<<<<<< HEAD:values.yaml
-    repository: laurarodleo/pedido-app-images
-    tag: latest
-=======
     repository: "marianavalle22/pedidos-backend"
     tag: "latest"
->>>>>>> ee7e4771ad0e33da78ec2e932a6b42a8b7461822:charts/pedido-app/values.yaml
     pullPolicy: IfNotPresent
   containerPort: 8080
   service:
     type: ClusterIP
     port: 8080
-<<<<<<< HEAD:values.yaml
-=======
   resources:
     requests:
       cpu: 100m
@@ -38,35 +28,16 @@ backend:
     extra: {}
   secrets:
     existingSecretName: "" 
-
->>>>>>> ee7e4771ad0e33da78ec2e932a6b42a8b7461822:charts/pedido-app/values.yaml
-
 frontend:
   image:
-<<<<<<< HEAD:values.yaml
-    repository: laurarodleo/pedido-frontend
-    tag: latest
-=======
     repository: "marianavalle22/pedidos-frontend"
     tag: "latest"
->>>>>>> ee7e4771ad0e33da78ec2e932a6b42a8b7461822:charts/pedido-app/values.yaml
     pullPolicy: IfNotPresent
   containerPort: 80
   service:
     type: ClusterIP
     port: 80
 
-<<<<<<< HEAD:values.yaml
-database:
-  image:
-    repository: mysql
-    tag: "8.0"
-    pullPolicy: IfNotPresent
-  containerPort: 3306
-  service:
-    type: ClusterIP
-    port: 3306
-=======
 
 postgresql:
   enabled: true
@@ -84,4 +55,3 @@ postgresql:
 ingress:
   enabled: true
   host: ""
->>>>>>> ee7e4771ad0e33da78ec2e932a6b42a8b7461822:charts/pedido-app/values.yaml
