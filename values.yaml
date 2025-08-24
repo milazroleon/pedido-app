@@ -1,86 +1,29 @@
-global:
-  nameOverride: ""
-  fullnameOverride: ""
-
 backend:
-  replicaCount: 1
   image:
     repository: laurarodleo/pedido-app-images
-    tag: backend-dev
+    tag: latest
     pullPolicy: IfNotPresent
+  containerPort: 8080
   service:
     type: ClusterIP
     port: 8080
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
-  env:
-    db:
-      host: ""
-      port: 5432
-      name: "orders"
-      user: "appuser"
-      password: "apppass"
-    extra: {}
-  secrets:
-    existingSecretName: ""
 
 frontend:
-  replicaCount: 1
   image:
-    repository: ghcr.io/your-org/pedido-frontend
+    repository: laurarodleo/pedido-frontend
     tag: latest
     pullPolicy: IfNotPresent
+  containerPort: 80
   service:
     type: ClusterIP
     port: 80
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 300m
-      memory: 256Mi
-  env: {}
 
-db:
-  architecture: standalone
-  auth:
-    enablePostgresUser: true
-    postgresPassword: "postgres"
-    username: "appuser"
-    password: "apppass"
-    database: "orders"
-  primary:
-    persistence:
-      enabled: true
-      size: 8Gi
-
-# Probes para evitar BackOff
-startupProbe:
-  httpGet:
-    path: /actuator/health
-    port: 8080
-  failureThreshold: 30
-  periodSeconds: 10
-  initialDelaySeconds: 5
-
-readinessProbe:
-  httpGet:
-    path: /actuator/health
-    port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  failureThreshold: 5
-
-livenessProbe:
-  httpGet:
-    path: /actuator/health
-    port: 8080
-  initialDelaySeconds: 20
-  periodSeconds: 15
-  failureThreshold: 3
+database:
+  image:
+    repository: mysql
+    tag: "8.0"
+    pullPolicy: IfNotPresent
+  containerPort: 3306
+  service:
+    type: ClusterIP
+    port: 3306
