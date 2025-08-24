@@ -5,7 +5,7 @@ global:
 backend:
   image:
     repository: "marianavalle22/pedidos-backend"
-    tag: "latest"
+    tag: "1.0"
     pullPolicy: IfNotPresent
   containerPort: 8080
   service:
@@ -31,7 +31,7 @@ backend:
 frontend:
   image:
     repository: "marianavalle22/pedidos-frontend"
-    tag: "latest"
+    tag: "1.0"
     pullPolicy: IfNotPresent
   containerPort: 80
   service:

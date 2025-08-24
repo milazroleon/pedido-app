@@ -19,6 +19,6 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ .targetCPUUtilizationPercentage | default 80 }}
+          averageUtilization: {{ default .targetCPUUtilizationPercentage .cpu.averageUtilization | default 80 }}
 {{- end }}
 {{- end }}

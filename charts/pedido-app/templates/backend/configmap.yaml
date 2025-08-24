@@ -5,7 +5,10 @@ metadata:
   labels:
     app: backend
 data:
-  DB_HOST: {{ .Values.backend.env.db.host | default (printf "%s-postgresql" .Release.Name) | quote }}
-  DB_PORT: {{ .Values.backend.env.db.port | default 5432 | quote }}
-  DB_NAME: {{ .Values.backend.env.db.name | default "pedidos_db" | quote }}
-  SPRING_DATASOURCE_URL: {{ printf "jdbc:postgresql://%s:%v/%s" (.Values.backend.env.db.host | default (printf "%s-postgresql" .Release.Name)) (.Values.backend.env.db.port | default 5432) (.Values.backend.env.db.name | default "pedidos_db") | quote }}
+  {{- $host := (default (printf "%s-postgresql" .Release.Name) .Values.backend.env.db.host) }}
+  {{- $port := (default 5432 .Values.backend.env.db.port) }}
+  {{- $dbnm := (default (default "pedidos-db" .Values.postgresql.auth.database) .Values.backend.env.db.name) }}
+  DB_HOST: {{ $host | quote }}
+  DB_PORT: {{ $port | quote }}
+  DB_NAME: {{ $dbnm | quote }}
+  SPRING_DATASOURCE_URL: {{ printf "jdbc:postgresql://%s:%v/%s" $host $port $dbnm | quote }}

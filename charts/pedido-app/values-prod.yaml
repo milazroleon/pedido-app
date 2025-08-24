@@ -9,7 +9,8 @@ backend:
     port: 8080
   resources:
     requests: { cpu: 200m, memory: 256Mi }
-    limits: { cpu: 500m, memory: 512Mi }
+    limits:   { cpu: 500m, memory: 512Mi }
+
   readinessProbe:
     httpGet:
       path: "/questions"
@@ -32,12 +33,18 @@ backend:
       port: http
     initialDelaySeconds: 10
     periodSeconds: 20
+
   hpa:
     enabled: true
     minReplicas: 2
     maxReplicas: 6
-    cpu:
-      averageUtilization: 75
+    targetCPUUtilizationPercentage: 75
+
+  env:
+    db:
+      name: "pedidos-db"
+      user: "produser"
+      password: "prodpass"
 
 frontend:
   replicaCount: 2
@@ -50,7 +57,7 @@ frontend:
     port: 80
   resources:
     requests: { cpu: 100m, memory: 128Mi }
-    limits: { cpu: 300m, memory: 256Mi }
+    limits:   { cpu: 400m, memory: 256Mi }
 
 postgresql:
   enabled: true

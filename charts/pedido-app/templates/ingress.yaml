@@ -5,29 +5,40 @@ metadata:
   labels:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/part-of: pedido-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Release.Name }}-backend
+                port:
+                  number: {{ .Values.backend.service.port }}
+
           - path: "/questions"
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-backend
                 port:
-                  number: {{ .Values.backend.service.port }} #8080
+                  number: {{ .Values.backend.service.port }}
           - path: "/answers"
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-backend
                 port:
-                  number: {{ .Values.backend.service.port }} #8080
+                  number: {{ .Values.backend.service.port }}
+
           - path: "/"
             pathType: Prefix
             backend:
               service:
                 name:  {{ .Release.Name }}-frontend
                 port:
-                  number:  {{ .Values.frontend.service.port }} #80
+                  number:  {{ .Values.frontend.service.port }}
