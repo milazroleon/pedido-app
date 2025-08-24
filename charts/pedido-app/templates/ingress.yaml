@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/part-of: pedido-app
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/questions"
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-backend
+                port:
+                  number: {{ .Values.backend.service.port }} #8080
+          - path: "/answers"
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-backend
+                port:
+                  number: {{ .Values.backend.service.port }} #8080
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name:  {{ .Release.Name }}-frontend
+                port:
+                  number:  {{ .Values.frontend.service.port }} #80

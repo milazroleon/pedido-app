@@ -2,11 +2,10 @@ global:
   nameOverride: ""
   fullnameOverride: ""
 
-
 backend:
   replicaCount: 1
   image:
-    repository: "ghcr.io/your-org/pedido-backend"
+    repository: "marianavalle22/pedidos-backend"
     tag: "latest"
     pullPolicy: IfNotPresent
   service:
@@ -23,7 +22,7 @@ backend:
     db:
       host: "" 
       port: 5432
-      name: "orders"
+      name: "pedidos_db"
       user: "appuser"
       password: "apppass" 
     extra: {}
@@ -34,7 +33,7 @@ backend:
 frontend:
   replicaCount: 1
   image:
-    repository: "ghcr.io/your-org/pedido-frontend"
+    repository: "marianavalle22/pedidos-frontend"
     tag: "latest"
     pullPolicy: IfNotPresent
   service:
@@ -50,15 +49,19 @@ frontend:
   env: {}
 
 
-db:
-  architecture: standalone
+postgresql:
+  enabled: true
   auth:
     enablePostgresUser: true
     postgresPassword: "postgres"
     username: "appuser"
     password: "apppass"
-    database: "orders"
+    database: "pedidosdb"
   primary:
     persistence:
       enabled: true
       size: 8Gi
+
+ingress:
+  enabled: true
+  host: ""
