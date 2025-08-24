@@ -1,32 +1,61 @@
+global:
+  nameOverride: ""
+  fullnameOverride: ""
+
 backend:
   replicaCount: 1
   image:
+    repository: laurarodleo/pedido-app-images
     tag: backend-dev
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8080
   resources:
     requests:
       cpu: 100m
       memory: 128Mi
     limits:
-      cpu: 300m
-      memory: 256Mi
+      cpu: 500m
+      memory: 512Mi
+  env:
+    db:
+      host: pedido-app-db
+      port: 5432
+      name: "orders"
+      user: "appuser"
+      password: "apppass"
+    extra: {}
+  secrets:
+    existingSecretName: ""
 
 frontend:
   replicaCount: 1
   image:
-    tag: frontend-dev
+    repository: ghcr.io/your-org/pedido-frontend
+    tag: dev
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
   resources:
     requests:
       cpu: 50m
       memory: 64Mi
     limits:
-      cpu: 200m
-      memory: 128Mi
+      cpu: 300m
+      memory: 256Mi
+  env: {}
 
 db:
+  architecture: standalone
   auth:
-    username: devuser
-    password: devpass
-    database: pedidosdb
+    enablePostgresUser: true
+    postgresPassword: "postgres"
+    username: "appuser"
+    password: "apppass"
+    database: "orders"
   primary:
     persistence:
-      size: 2Gi
+      enabled: true
+      size: 1Gi
