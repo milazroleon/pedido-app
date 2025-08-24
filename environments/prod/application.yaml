@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/milazroleon/pedido-app.git'
     targetRevision: main
-    path: charts/pedido-app     # carpeta donde está tu Chart.yaml
+    path: charts\pedido-app     # carpeta donde está tu Chart.yaml
     helm:
       valueFiles:
         - values.yaml
