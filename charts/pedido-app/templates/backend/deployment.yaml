@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+  labels:
+    app.kubernetes.io/name: backend
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.backend.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: backend
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: backend
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "IfNotPresent" }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port | default 8080 }}
+              protocol: TCP
+
+          # Variables de entorno desde ConfigMap y Secret
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-backend-config
+            - secretRef:
+                name: {{ .Release.Name }}-backend-secret
+
+          # Probes
+          {{- with .Values.backend.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.backend.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.backend.startupProbe }}
+          startupProbe:
+            {{- toYaml .Values.backend.startupProbe | nindent 12 }}
+          {{- end }}
+
+          # Recursos
+          {{- with .Values.backend.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
