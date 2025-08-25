@@ -1,5 +1,5 @@
 backend:
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: marianavalle22/pedidos-backend
     tag: "1.0"

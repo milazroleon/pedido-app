@@ -18,7 +18,9 @@ spec:
     namespace: pedido-app-prod
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: true        # elimina recursos que ya no están en Git
+      selfHeal: true     # corrige divergencias manuales
+      allowEmpty: true   # importante: fuerza auto-sync aunque no detecte cambios “directos”
     syncOptions:
       - CreateNamespace=true
+      - PruneLast=true  
