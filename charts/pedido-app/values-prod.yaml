@@ -59,9 +59,10 @@ frontend:
 postgresql:
   enabled: true
   auth:
-    username: produser
-    password: prodpass
-    database: pedidos-db
+    username: appuser
+    password: apppass
+    database: pedidos_db
+
   primary:
     persistence:
       enabled: true
