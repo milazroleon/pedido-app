@@ -43,6 +43,14 @@ backend:
     cpu:
       averageUtilization: 75
 
+  env:
+    db:
+      host: "pedido-app-prod-postgresql"   # nombre del servicio PostgreSQL en prod
+      port: 5432
+      name: "pedidos_db"
+      user: "appuser"
+      password: "apppass"
+
 frontend:
   replicaCount: 2
   image:
@@ -72,6 +80,5 @@ global:
   fullnameOverride: ""
   nameOverride: ""
 
-  ingress:
+ingress:
   enabled: true
-
