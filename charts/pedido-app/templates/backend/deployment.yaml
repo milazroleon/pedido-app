@@ -30,6 +30,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-backend-config
+
           env:
             - name: DB_HOST
               value: {{ .Values.backend.env.db.host | default (printf "%s-postgresql" .Release.Name) }}
@@ -38,10 +39,7 @@ spec:
             - name: DB_NAME
               value: {{ .Values.backend.env.db.name | default "pedidos_db" }}
             - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.backend.secrets.existingSecretName | default (printf "%s-postgresql" .Release.Name) }}
-                  key: username
+              value: {{ .Values.backend.env.db.user | default "appuser" | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
