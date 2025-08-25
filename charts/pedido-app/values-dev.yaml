@@ -15,16 +15,16 @@ backend:
     httpGet:
       path: "/questions"
       port: http
-    initialDelaySeconds: 30   # más tiempo antes del primer check
-    periodSeconds: 15         # chequea cada 15s
-    timeoutSeconds: 5         # espera hasta 5s por respuesta
-    failureThreshold: 10      # permite hasta 10 fallos seguidos
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 5
+    failureThreshold: 10
 
   livenessProbe:
     httpGet:
       path: "/questions"
       port: http
-    initialDelaySeconds: 120  # espera 2 minutos antes de empezar
+    initialDelaySeconds: 120
     periodSeconds: 30
     timeoutSeconds: 5
     failureThreshold: 10
@@ -33,8 +33,8 @@ backend:
     httpGet:
       path: "/questions"
       port: http
-    failureThreshold: 30      # permite hasta 30 fallos
-    periodSeconds: 10         # cada 10s → 5 minutos de tolerancia
+    failureThreshold: 30
+    periodSeconds: 10
 
   hpa:
     enabled: true
@@ -42,6 +42,17 @@ backend:
     maxReplicas: 3
     cpu:
       averageUtilization: 80
+
+  env:
+    db:
+      host: "pedido-app-dev-postgresql"
+      port: 5432
+      name: "pedidos_db"
+      user: "appuser"
+      password: "apppass"
+
+  secrets:
+    existingSecretName: "pedido-app-dev-postgresql"
 
 frontend:
   replicaCount: 1
@@ -70,4 +81,3 @@ postgresql:
 global:
   fullnameOverride: ""
   nameOverride: ""
-
