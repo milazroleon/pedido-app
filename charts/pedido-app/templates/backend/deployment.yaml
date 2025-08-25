@@ -31,7 +31,7 @@ spec:
             - configMapRef:
                 name: {{ .Release.Name }}-backend-config
             - secretRef:
-                name: {{ .Values.backend.secrets.existingSecretName }}
+                name: {{ .Values.backend.secrets.existingSecretName | default (printf "%s-backend-secret" .Release.Name) }}
 
           env:
             - name: DB_HOST
@@ -43,13 +43,13 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.backend.secrets.existingSecretName }}
-                  key: username
+                  name: {{ .Values.backend.secrets.existingSecretName | default (printf "%s-backend-secret" .Release.Name) }}
+                  key: DB_USER
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.backend.secrets.existingSecretName }}
-                  key: password
+                  name: {{ .Values.backend.secrets.existingSecretName | default (printf "%s-backend-secret" .Release.Name) }}
+                  key: DB_PASSWORD
 
           # Probes
           {{- with .Values.backend.readinessProbe }}

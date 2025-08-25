@@ -51,8 +51,9 @@ backend:
       user: "appuser"
       password: "apppass"
 
+  # Creamos un secret propio para la app backend
   secrets:
-    existingSecretName: "pedido-app-dev-postgresql"
+    existingSecretName: ""   # deja vacío, Helm creará el secret automáticamente
 
 frontend:
   replicaCount: 1
