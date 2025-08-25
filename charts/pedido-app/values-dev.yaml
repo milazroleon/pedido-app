@@ -66,3 +66,6 @@ postgresql:
 global:
   fullnameOverride: ""
   nameOverride: ""
+
+ingress:
+  enabled: true
