@@ -1,5 +1,5 @@
 backend:
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: marianavalle22/pedidos-backend
     tag: "1.0"
@@ -8,30 +8,34 @@ backend:
     type: ClusterIP
     port: 8080
   resources:
-    requests: { cpu: 200m, memory: 256Mi }
+    requests: { cpu: 100m, memory: 128Mi }
     limits: { cpu: 500m, memory: 512Mi }
+
   readinessProbe:
     httpGet:
       path: "/questions"
       port: http
-    initialDelaySeconds: 20
-    periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 12
+    initialDelaySeconds: 30   # más tiempo antes del primer check
+    periodSeconds: 15         # chequea cada 15s
+    timeoutSeconds: 5         # espera hasta 5s por respuesta
+    failureThreshold: 10      # permite hasta 10 fallos seguidos
+
   livenessProbe:
     httpGet:
       path: "/questions"
       port: http
-    initialDelaySeconds: 60
-    periodSeconds: 20
-    timeoutSeconds: 2
-    failureThreshold: 6
+    initialDelaySeconds: 120  # espera 2 minutos antes de empezar
+    periodSeconds: 30
+    timeoutSeconds: 5
+    failureThreshold: 10
+
   startupProbe:
     httpGet:
       path: "/questions"
       port: http
-    initialDelaySeconds: 10
-    periodSeconds: 20
+    failureThreshold: 30      # permite hasta 30 fallos
+    periodSeconds: 10         # cada 10s → 5 minutos de tolerancia
+
   hpa:
     enabled: true
     minReplicas: 2
