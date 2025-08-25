@@ -30,8 +30,23 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-backend-config
-            - secretRef:
-                name: {{ .Release.Name }}-backend-secret
+          env:
+            - name: DB_HOST
+              value: {{ .Values.backend.env.db.host | default (printf "%s-postgresql" .Release.Name) }}
+            - name: DB_PORT
+              value: "{{ .Values.backend.env.db.port | default 5432 }}"
+            - name: DB_NAME
+              value: {{ .Values.backend.env.db.name | default "pedidos_db" }}
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.backend.secrets.existingSecretName | default (printf "%s-postgresql" .Release.Name) }}
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.backend.secrets.existingSecretName | default (printf "%s-postgresql" .Release.Name) }}
+                  key: password
 
           # Probes
           {{- with .Values.backend.readinessProbe }}
