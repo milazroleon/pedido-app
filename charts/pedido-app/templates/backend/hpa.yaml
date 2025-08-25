@@ -1,9 +1,9 @@
-{{- with .Values.backend.hpa }}
-{{- if .enabled }}
+{{- $hpa := .Values.backend.hpa -}}
+{{- if and $hpa $hpa.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "backend.fullname" $}}
+  name: {{ include "backend.fullname" $ }}
   labels:
     {{- include "backend.labels" $ | nindent 4 }}
 spec:
@@ -11,14 +11,13 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "backend.fullname" $ }}
-  minReplicas: {{ .minReplicas | default 2 }}
-  maxReplicas: {{ .maxReplicas | default 6 }}
+  minReplicas: {{ default 2 $hpa.minReplicas }}
+  maxReplicas: {{ default 6 $hpa.maxReplicas }}
   metrics:
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ default .targetCPUUtilizationPercentage .cpu.averageUtilization | default 80 }}
-{{- end }}
+          averageUtilization: {{ default 80 (or $hpa.cpu.averageUtilization $hpa.targetCPUUtilizationPercentage) }}
 {{- end }}
