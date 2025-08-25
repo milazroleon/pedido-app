@@ -60,8 +60,8 @@ postgresql:
   enabled: true
   auth:
     username: appuser
-    password: devpass
-    database: pedidos-db
+    password: apppass
+    database: pedidos_db
   primary:
     persistence:
       enabled: true
