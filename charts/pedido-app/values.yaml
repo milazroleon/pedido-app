@@ -46,7 +46,7 @@ postgresql:
     postgresPassword: "postgres"
     username: "appuser"
     password: "apppass"
-    database: "pedidosdb"
+    database: "pedidos-db"
   primary:
     persistence:
       enabled: true
