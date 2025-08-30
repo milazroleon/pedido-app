@@ -1,4 +1,4 @@
-````markdown
+
 # Pedido-App
 
 ## Información del Proyecto
